@@ -1,0 +1,41 @@
+---
+title: "Waseem Gazali"
+---
+
+I'm a Master of Science in Business Analytics student at Baruch College's Zicklin School of Business, concentrating in Data Analytics, with an expected graduation in 2027. I'm building toward a career in **healthcare analytics**, using data to improve how care is delivered and managed.
+
+My path here runs through finance and technology. I earned a BBA in Finance from Brooklyn College, spent two years at an accounting firm, and then moved into tech and data handling at a city hospital. Since then, I've interned at **IBM** as a Systems Administrator and at **Ericsson** in Finance Data Science & Automation. I also hold CompTIA A+ and Network+ certifications.
+
+Outside of work and school, I'm a **purple belt in Brazilian jiu-jitsu** and run a free monthly training session for seniors. I also used to travel across New York State to compete in video game tournaments.
+
+**Skills:** R, Python (pandas, NumPy, scikit-learn), SQL, Excel, Power BI, Git/GitHub, Quarto
+
+This site will host my STA 9750 projects as I build out my data science portfolio.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+if(!require("leaflet")){
+    options(repos=c(CRAN="https://cloud.r-project.org"))
+    install.packages("leaflet")
+    stopifnot(require("leaflet"))
+}
+
+baruch_longitude <- -73.98333
+baruch_latitude  <- +40.74028
+
+leaflet() |>
+  addTiles() |>
+  setView(baruch_longitude, baruch_latitude, zoom=17) |>
+  addPopups(baruch_longitude, baruch_latitude, 
+            "I am a Master's student at <b>Baruch College</b>!")
+```
+
+```{r}
+#| include: false
+1+1
+```
+--------------
+Last Updated: `r format(Sys.time(), "%A %m %d, %Y at %H:%M%p")`

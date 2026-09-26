@@ -1,0 +1,40 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "STA 9750 Submission Material"
+  description:
+    Course Projects for STA 9750 at Baruch College
+  site-url: "https://waseemgazali55.github.io/STA9750-2026-FALL/"
+  navbar:
+    background: primary
+    search: false
+    left:
+      - href: index.qmd
+        text: Home
+      - text: Mini-Projects
+        menu:
+          - href: mp01.qmd
+            text: "Mini-Project #01"
+          - href: mp02.qmd
+            text: "Mini-Project #02"
+          - href: mp03.qmd
+            text: "Mini-Project #03"
+          - href: mp04.qmd
+            text: "Mini-Project #04"
+    right:
+      - icon: linkedin
+        href: https://www.linkedin.com/in/waseemgazali/
+      - icon: github
+        href: https://github.com/waseemgazali55
+      - icon: envelope
+        href: mailto:waseemgazali@outlook.com
+
+format:
+  html:
+    theme: flatly
+    toc: false
+
+editor:
+  mode: source
