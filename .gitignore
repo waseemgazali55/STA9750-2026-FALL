@@ -19,3 +19,5 @@ data/**
 **/gganim*
 *bspf
 **/*bspf
+/.quarto/
+**/*.quarto_ipynb

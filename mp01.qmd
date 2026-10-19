@@ -331,7 +331,81 @@ YOUR EXPLANATION OF TABLE 5 GOES HERE
 
 ## Final Insights and Deliverable
 
-YOUR STRATEGY MEMO GOES HERE
+```{r}
+#| message: false
+# Numbers used in the strategy memo
+
+# Topic 1: global vs regional titles
+global_trend <- NETFLIX_DATA |>
+  filter(!is.na(available_globally)) |>
+  summarize(share_titles = mean(available_globally),
+            share_hours  = sum(hours_viewed[available_globally]) / sum(hours_viewed),
+            .by = period)
+global_hours_first <- global_trend |> filter(period == "2023H2") |> pull(share_hours)
+global_hours_last  <- global_trend |> filter(period == "2026H1") |> pull(share_hours)
+
+# Topic 2: live events
+live_trend <- NETFLIX_DATA |>
+  summarize(live_share = sum(hours_viewed[live_event]) / sum(hours_viewed),
+            .by = period)
+live_share_last  <- live_trend |> filter(period == "2026H1") |> pull(live_share)
+live_avg_views   <- mean(NETFLIX_DATA$views[NETFLIX_DATA$live_event], na.rm = TRUE)
+tape_avg_views   <- mean(NETFLIX_DATA$views[!NETFLIX_DATA$live_event], na.rm = TRUE)
+live_top10_views <- mean(head(sort(NETFLIX_DATA$views[NETFLIX_DATA$live_event], decreasing = TRUE), 10))
+tape_top10_views <- mean(head(sort(NETFLIX_DATA$views[!NETFLIX_DATA$live_event], decreasing = TRUE), 10))
+
+global_titles_last <- global_trend |> filter(period == "2026H1") |> pull(share_titles)
+live_views_lift    <- live_avg_views / tape_avg_views - 1
+top10_gap          <- tape_top10_views / live_top10_views
+
+# Topic 3: returning franchises
+# A title counts as "returning" if it is Season 2 or later
+# (e.g. "Season 3") or a numbered sequel (e.g. "Stranger Things 4")
+is_returning <- function(t) str_detect(t, "Season ([2-9]|[1-9][0-9])|\\s[2-9]$")
+
+top1_titles <- NETFLIX_DATA |>
+  slice_max(hours_viewed, n = 1, by = period, with_ties = FALSE)
+n_top1_returning <- sum(is_returning(top1_titles$title))
+n_periods        <- nrow(top1_titles)
+
+top10_titles <- NETFLIX_DATA |>
+  slice_max(hours_viewed, n = 10, by = period, with_ties = FALSE)
+top10_returning_share <- mean(is_returning(top10_titles$title))
+
+top1_by_period <- NETFLIX_DATA |>
+  mutate(share = hours_viewed / sum(hours_viewed), .by = period) |>
+  slice_max(share, n = 1, by = period, with_ties = FALSE)
+top1_first <- top1_by_period |> filter(period == "2023H1") |> pull(share)
+top1_peak  <- max(top1_by_period$share)
+
+```
+
+**To:** Netflix Leadership  
+**From:** Waseem Gazali  
+**Date:** October 2026  
+**Subject:** Netflix content strategy for 2027 and beyond
+
+Netflix’s What We Watched reports from 2023-2026 revealed a meaningful path forward for Netflix in 2027 and onward. Global titles appear to be more efficient releases than regional titles. Another point is that returning seasons of series remain the most reliable way to claim the top spots. Even as new titles are still able to fill up the rest of the top ten, returning titles find their way frequently. Lastly, live events are holding their weight compared to the average pre-taped title, but the biggest live events remain much smaller than the biggest scripted shows. Live events have their place in Netflix’s ecosystem, but a more directed output could yield better results for the company.
+
+### Global Content
+
+Global titles make up `r percent(global_titles_last, 0.1)` of the catalog and account for `r percent(global_hours_last, 0.1)` of all viewing hours. This means that they earn significantly more viewing per title than regional titles. Their share of total viewing hours declined from `r percent(global_hours_first, 0.1)` in the second half of 2023 to `r percent(global_hours_last, 0.1)` in the first half of 2026. We saw King the Land reach the number one spot despite being regional. Regional content is gaining momentum, but the gap is still significant. Some of the biggest successes like Squid Game and Money Heist show the strength of titles released with global reach. Breakout titles with room to grow spread quickly. Netflix should prioritize more of these titles since great titles are enjoyed worldwide and can be held back by regional locks.
+
+### Returning Franchises
+
+Returning seasons claimed `r n_top1_returning` of `r n_periods` number one spots, including the Bridgerton titles, Squid Game titles, and Wednesday titles. The only new titles to reach the number one spot were The Night Agent and King the Land. Returning seasons made up `r percent(top10_returning_share, 1)` of top ten slots, so new shows still occupy most of those slots. The number one title is also getting bigger over time, it went from `r percent(top1_first, 0.01)` to `r percent(top1_peak, 0.01)`, so having a strong returning series is becoming more valuable as time goes. The Stranger Things series has `r comma(stranger_hours)` hours since they ran so this shows that these returning titles keep paying off for a substantial time. Squid Games was also a perfect example of this, a global breakout that held the number one spot for two consecutive periods and can continuously be built on as a returning franchise. For 2027 Netflix should continue with successful series but still keep launching enough new titles to create the next generation of these continuing seasons.
+
+### Live Events
+
+Live events accounted for `r percent(live_share_last, 0.1)` of viewing hours in the first half of 2026. On average a live event drew `r comma(live_avg_views)` views while a pre-taped title drew `r comma(tape_avg_views)`. But when you compare the biggest live events with the biggest pre-taped titles, the gap is much bigger. The top pre-taped titles reach `r round(top10_gap, 1)` times more views than the largest live events, `r comma(tape_top10_views)` for pre-taped and `r comma(live_top10_views)` for live. Netflix should grow the category in a more focused way. The events already hold their weight against ordinary titles and clearly belong in the mix, but their lower ceiling argues for a focused route rather than a broad expansion.
+
+### Conclusion
+
+Looking ahead, Netflix should build and keep emphasis on global titles as momentum has shown how massive a global title can reach. Also, Netflix should keep live events focused and targeted rather than expansive. Lastly, proven titles have shown that it is worth investing in returning seasons for them, but it is still important to keep the pipeline of new titles going so new opportunities for franchise building can arise. No single title can carry a substantial amount of viewing, so a wide catalog is important for Netflix. The data shows consumer interests for Netflix to cater to. It also shows areas where Netflix can reassess market goals and use resources wisely. Overall consumers are providing traceable feedback with glimpses and signs of what is working and what isn’t.
+
+
+
+
 
 ::: {.callout-note title="AI Usage Statement" collapse="true"}
 
