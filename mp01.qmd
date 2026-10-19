@@ -10,8 +10,7 @@ format:
 
 ## Introduction
 
-A suitable introduction goes here. In this mini-project, I intend to demonstrate
-my skills at Data Summarization/Exploratory Analysis/Table Formatting in an analysis of Media/Internet data.
+Starting in 2023 Netflix started publishing What We Watched reports to give advertisers and creators a better understanding of what consumers watch. The reports come out every six months and list how many hours each title was viewed, and this project covers the first half of 2023 through the first half of 2026. We clean the data, explore patterns and trends, and finish with a memo for Netflix on what to focus on in the future.
 
 ## Data Acquisition and Preparation
 
@@ -129,7 +128,7 @@ NETFLIX_DATA <- NETFLIX_DATA |>
 glimpse(NETFLIX_DATA)
 ```
 
-YOUR DESCRIPTION OF THE GLIMPSE OUTPUT GOES HERE
+The data has 61,892 rows and 11 columns, each row is one title in a one six-month period. After the cleaning in Task 3, the column types are correct: year is now an integer, the date columns are stored as real dates, and available_globally is now TRUE/FALSE. One thing to flag is that views shows NA for the first rows, because those are from the first half of 2023 and that report didn't include views.
 
 ```{r}
 #| code-fold: false
@@ -137,7 +136,7 @@ library(skimr)
 skim(NETFLIX_DATA)
 ```
 
-YOUR DESCRIPTION OF THE SKIM OUTPUT GOES HERE
+The skim output shows that hours_viewed has no missing values. Views are missing for 29% of rows, which matches the first half of 2023 gap, runtime is missing for 21% of rows, and release_date is missing for 57%, so release dates aren't reliable. Hours viewed had a mean of 8.3M and a median of only 1.8m, so the data was skewed.
 
 ### Exploratory Questions
 
@@ -217,8 +216,7 @@ NETFLIX_DATA |>
   tab_source_note(SOURCE_NOTE)
 ```
 
-YOUR EXPLANATION OF TABLE 1 GOES HERE
-
+Table 1 shows the top title in each period and the share of viewing hours it got. The number one title gets around 1% of the viewing in each period. The share did go up over time from 0.87% to a high of 1.35% . This shows that the biggest hits are getting bigger than they were before. Returning seasons also took 5 of the 7 number one spots, and Squid Game Season 2 was number one for two periods in a row, which shows that a returning hit can keep its momentum going.
 #### Catalog Size Over Time
 
 ```{r}
@@ -239,8 +237,7 @@ NETFLIX_DATA |>
   tab_source_note("Runtime excludes titles with no published runtime (about 21% of rows).")
 ```
 
-YOUR EXPLANATION OF TABLE 2 GOES HERE
-
+Table 2 shows the number of titles and total runtime in each period. The big drop from 18,126 titles to around 6,500 is a data issue and not a real drop, since Netflix split its reports into TV and Film tabs after the first half of 2023 and only TV was loaded. From the second half of 2023 on, the catalog grew from 6,574 to 8,163 titles, about 24%. This shows Netflix is still adding more content over time.
 #### Most Consistent "Comfort Food" Titles
 
 ```{r}
@@ -271,8 +268,7 @@ NETFLIX_DATA |>
   tab_source_note("CV = standard deviation / mean; lower values mean steadier viewership.")
 ```
 
-YOUR EXPLANATION OF TABLE 3 GOES HERE
-
+Table 3 shows the titles with the most consistent viewership. Consistent is when a title shows up in all of the 7 periods. Then rank them by their weakest period so one big spike wouldn’t skew the data. CV measures how much a title’s viewing moves around between periods, lower is steadier. Findings of steady shows like Breaking Bad and Money Heist had a CV of around 0.12 to 0.17.
 #### Shows vs. Movies
 
 ```{r}
@@ -299,8 +295,7 @@ NETFLIX_DATA |>
   tab_source_note("Shows: titles containing 'Season', 'Series', or 'Limited', or longer than 4 hours.")
 ```
 
-YOUR EXPLANATION OF TABLE 4 GOES HERE
-
+Table 4 shows the share of viewing that went to shows vs. movies in each period. A title was counted as a show if it had “Season,” “Series,” or “Limited” in the title, or a runtime over 4 hours. Only the first half of 2023 gives a real split, around 71% shows and 29% movies, later periods only had Tv loaded.
 #### Live Events vs. Pre-Taped Content
 
 ```{r}
@@ -327,8 +322,7 @@ NETFLIX_DATA |>
   tab_source_note("Views are Netflix's estimate (hours viewed / runtime); unavailable for 2023H1.")
 ```
 
-YOUR EXPLANATION OF TABLE 5 GOES HERE
-
+Table 5 compares live events to pre-taped titles. By hours, live looks weak because live events are usually short. When compared by views they are almost equal, 1.5M for live and 1.4M for pre-taped. At the top shows vs live events it is different, the biggest pre-taped titles get about 9 times more views than the biggest live events, 106.3M vs 11.3M.
 ## Final Insights and Deliverable
 
 ```{r}
