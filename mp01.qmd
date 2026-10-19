@@ -136,7 +136,7 @@ library(skimr)
 skim(NETFLIX_DATA)
 ```
 
-The skim output shows that hours_viewed has no missing values. Views are missing for 29% of rows, which matches the first half of 2023 gap, runtime is missing for 21% of rows, and release_date is missing for 57%, so release dates aren't reliable. Hours viewed had a mean of 8.3M and a median of only 1.8m, so the data was skewed.
+The skim output shows that hours_viewed has no missing values. Views are missing for 29% of rows, which matches the first half of 2023 gap, runtime is missing for 21% of rows, and release_date is missing for 57%, so release dates aren't reliable. Hours viewed had a mean of 8.3M and a median of only 1.8M, so the data was skewed.
 
 ### Exploratory Questions
 
@@ -217,7 +217,9 @@ NETFLIX_DATA |>
 ```
 
 Table 1 shows the top title in each period and the share of viewing hours it got. The number one title gets around 1% of the viewing in each period. The share did go up over time from 0.87% to a high of 1.35% . This shows that the biggest hits are getting bigger than they were before. Returning seasons also took 5 of the 7 number one spots, and Squid Game Season 2 was number one for two periods in a row, which shows that a returning hit can keep its momentum going.
+
 #### Catalog Size Over Time
+
 
 ```{r}
 # Task 6.2: number of titles and total runtime per period
@@ -238,7 +240,9 @@ NETFLIX_DATA |>
 ```
 
 Table 2 shows the number of titles and total runtime in each period. The big drop from 18,126 titles to around 6,500 is a data issue and not a real drop, since Netflix split its reports into TV and Film tabs after the first half of 2023 and only TV was loaded. From the second half of 2023 on, the catalog grew from 6,574 to 8,163 titles, about 24%. This shows Netflix is still adding more content over time.
+
 #### Most Consistent "Comfort Food" Titles
+
 
 ```{r}
 # Task 6.3: titles present in every period, ranked by their worst period.
@@ -269,7 +273,9 @@ NETFLIX_DATA |>
 ```
 
 Table 3 shows the titles with the most consistent viewership. Consistent is when a title shows up in all of the 7 periods. Then rank them by their weakest period so one big spike wouldn’t skew the data. CV measures how much a title’s viewing moves around between periods, lower is steadier. Findings of steady shows like Breaking Bad and Money Heist had a CV of around 0.12 to 0.17.
+
 #### Shows vs. Movies
+
 
 ```{r}
 # Task 6.4: classify titles. Live events are their own category; otherwise
@@ -296,6 +302,8 @@ NETFLIX_DATA |>
 ```
 
 Table 4 shows the share of viewing that went to shows vs. movies in each period. A title was counted as a show if it had “Season,” “Series,” or “Limited” in the title, or a runtime over 4 hours. Only the first half of 2023 gives a real split, around 71% shows and 29% movies, later periods only had Tv loaded.
+
+
 #### Live Events vs. Pre-Taped Content
 
 ```{r}
@@ -323,6 +331,8 @@ NETFLIX_DATA |>
 ```
 
 Table 5 compares live events to pre-taped titles. By hours, live looks weak because live events are usually short. When compared by views they are almost equal, 1.5M for live and 1.4M for pre-taped. At the top shows vs live events it is different, the biggest pre-taped titles get about 9 times more views than the biggest live events, 106.3M vs 11.3M.
+
+
 ## Final Insights and Deliverable
 
 ```{r}
